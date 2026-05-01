@@ -28,8 +28,12 @@ const responses = {
   "Je veux regarder une vidéo": "🎮 D’accord, vidéo après les étoiles.",
   "Stop, je veux arrêter": "🛑 D’accord, on arrête.",
   "Je veux une pause": "😴 D’accord, on fait une pause.",
-  "J’ai besoin d’aide": "🙋 D’accord, je vais t’aider."
-  "Je vais monter dans le bus": "🚌 D’accord, on va monter dans le bus."
+  "J’ai besoin d’aide": "🙋 D’accord, je vais t’aider.",
+  "J’ai peur": "😟 D’accord, je suis avec toi. On peut respirer doucement.",
+  "Je vais monter dans le bus": "🚌 D’accord, on va monter dans le bus.",
+  "Je vais à l’école": "🏫 D’accord, on va à l’école.",
+  "Je rentre à la maison": "🏠 D’accord, on rentre à la maison.",
+  "Je suis fatigué": "🥱 D’accord, tu es fatigué. On peut se reposer."
 };
 
 const tokenValues = {
@@ -39,28 +43,27 @@ const tokenValues = {
   "Je veux regarder une vidéo": 1,
   "Stop, je veux arrêter": 2,
   "Je veux une pause": 2,
-  "J’ai besoin d’aide": 2
-  "Je vais monter dans le bus": 1
+  "J’ai besoin d’aide": 2,
+  "J’ai peur": 2,
+  "Je vais monter dans le bus": 1,
+  "Je vais à l’école": 1,
+  "Je rentre à la maison": 1,
+  "Je suis fatigué": 2
 };
 
 function speak(message) {
-  if (!voiceEnabled) return;
-  if (!("speechSynthesis" in window)) return;
-
+  if (!voiceEnabled || !("speechSynthesis" in window)) return;
   window.speechSynthesis.cancel();
-
   const utterance = new SpeechSynthesisUtterance(message);
   utterance.lang = "fr-FR";
   utterance.rate = calmMode ? 0.82 : 0.9;
   utterance.pitch = calmMode ? 1 : 1.1;
-
   window.speechSynthesis.speak(utterance);
 }
 
 function renderStars() {
   const tokenRow = document.querySelector(".token-row");
   tokenRow.innerHTML = "";
-
   for (let i = 0; i < maxTokens; i += 1) {
     const star = document.createElement("span");
     star.id = `star${i + 1}`;
@@ -71,7 +74,6 @@ function renderStars() {
 
 function updateStars(animatedIndex = null) {
   renderStars();
-
   if (animatedIndex !== null && animationsEnabled) {
     const star = document.getElementById(`star${animatedIndex + 1}`);
     if (star) {
@@ -86,12 +88,10 @@ function unlockReward() {
   rewardCard.classList.add("unlocked");
   rewardTitle.textContent = "🎉 Bravo ! Récompense débloquée";
   rewardText.textContent = "Tu as gagné les étoiles grâce à tes communications.";
-
   if (!calmMode && animationsEnabled) {
     confetti.classList.remove("hidden");
     confetti.classList.add("confetti-animate");
   }
-
   speak("Bravo ! Récompense débloquée.");
 }
 
@@ -106,26 +106,16 @@ function lockReward() {
 
 function addToken(value = 1) {
   if (tokenCount >= maxTokens) return;
-
   const previousCount = tokenCount;
   tokenCount = Math.min(tokenCount + value, maxTokens);
   updateStars(previousCount);
-
-  if (!calmMode) {
-    setTimeout(() => speak("Super !"), 300);
-  }
-
-  if (tokenCount >= maxTokens) {
-    setTimeout(() => unlockReward(), 900);
-  }
+  if (!calmMode) setTimeout(() => speak("Super !"), 300);
+  if (tokenCount >= maxTokens) setTimeout(unlockReward, 900);
 }
 
 function stopVisualTimer() {
-  if (timerInterval) {
-    clearInterval(timerInterval);
-    timerInterval = null;
-  }
-
+  if (timerInterval) clearInterval(timerInterval);
+  timerInterval = null;
   timerBox.classList.add("hidden");
   timerProgress.style.width = "100%";
 }
@@ -134,15 +124,12 @@ function startVisualTimer(seconds = 10) {
   stopVisualTimer();
   timerBox.classList.remove("hidden");
   timerProgress.style.width = "100%";
-
   let remaining = seconds;
   timerText.textContent = `${remaining} secondes`;
-
   timerInterval = setInterval(() => {
     remaining -= 1;
     timerText.textContent = `${remaining} secondes`;
     timerProgress.style.width = `${(remaining / seconds) * 100}%`;
-
     if (remaining <= 0) {
       clearInterval(timerInterval);
       timerInterval = null;
@@ -163,25 +150,18 @@ function resetDemo() {
 document.querySelectorAll(".symbol-card").forEach((button) => {
   button.addEventListener("click", () => {
     if (tokenCount >= maxTokens) return;
-
     const message = button.dataset.message;
     const response = responses[message] || "D’accord.";
     const tokenValue = tokenValues[message] || 1;
-
     speechText.textContent = message;
     rewardText.textContent = response;
-
     if (animationsEnabled) button.classList.add("pressed");
-
     speak(message);
-
     setTimeout(() => speak(response), 900);
     setTimeout(() => addToken(tokenValue), 1300);
-
-    if (message === "Je veux une pause") {
-      setTimeout(() => startVisualTimer(10), 900);
-    }
-
+    if (message === "Je veux une pause") setTimeout(() => startVisualTimer(10), 900);
+    if (message === "Je vais monter dans le bus") setTimeout(() => speak("On attend le bus."), 1800);
+    if (message === "J’ai peur") setTimeout(() => speak("Respire doucement."), 1800);
     setTimeout(() => button.classList.remove("pressed"), 200);
   });
 });
@@ -193,22 +173,16 @@ speakButton.addEventListener("click", () => {
 
 resetButton.addEventListener("click", resetDemo);
 resetButtonTop.addEventListener("click", resetDemo);
-
 calmModeButton.addEventListener("click", () => {
   calmMode = !calmMode;
   document.body.classList.toggle("calm-mode", calmMode);
   calmModeButton.textContent = calmMode ? "Mode normal" : "Mode calme";
 });
-
 maxTokensSelect.addEventListener("change", () => {
   maxTokens = Number(maxTokensSelect.value);
   resetDemo();
 });
-
-voiceToggle.addEventListener("change", () => {
-  voiceEnabled = voiceToggle.checked;
-});
-
+voiceToggle.addEventListener("change", () => { voiceEnabled = voiceToggle.checked; });
 animationToggle.addEventListener("change", () => {
   animationsEnabled = animationToggle.checked;
   document.body.classList.toggle("no-animations", !animationsEnabled);
@@ -216,13 +190,10 @@ animationToggle.addEventListener("change", () => {
 
 const copyFeedbackButton = document.getElementById("copyFeedback");
 const copyStatus = document.getElementById("copyStatus");
-
 copyFeedbackButton.addEventListener("click", async () => {
   const useful = document.getElementById("useful").value;
   const comment = document.getElementById("comment").value.trim();
-
   const feedback = `Feedback démo Svox\nUtilité: ${useful}\nAmélioration: ${comment || "(aucune remarque)"}`;
-
   try {
     await navigator.clipboard.writeText(feedback);
     copyStatus.textContent = "Feedback copié. Vous pouvez le coller dans un message.";
@@ -230,13 +201,6 @@ copyFeedbackButton.addEventListener("click", async () => {
     copyStatus.textContent = "Copie impossible automatiquement.";
   }
 });
-if (message === "Je veux une pause") {
-  startVisualTimer(10);
-}
+
 renderStars();
 lockReward();
-if (message === "Je vais monter dans le bus") {
-  setTimeout(() => {
-    speak("On attend le bus.");
-  }, 1800);
-}
