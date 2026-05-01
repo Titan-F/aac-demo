@@ -102,3 +102,18 @@ copyFeedbackButton.addEventListener("click", async () => {
     copyStatus.textContent = "Copie impossible automatiquement. Sélectionnez le texte manuellement.";
   }
 });
+
+function updateStars() {
+  stars.forEach((star, index) => {
+    if (index < tokenCount) {
+      star.textContent = "⭐";
+      star.classList.add("star-animate");
+
+      setTimeout(() => {
+        star.classList.remove("star-animate");
+      }, 300);
+    } else {
+      star.textContent = "⚪";
+    }
+  });
+}
