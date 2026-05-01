@@ -163,3 +163,26 @@ calmModeButton.addEventListener("click", () => {
   document.body.classList.toggle("calm-mode", calmMode);
   calmModeButton.textContent = calmMode ? "Mode normal" : "Mode calme";
 });
+const timerBox = document.getElementById("timerBox");
+const timerProgress = document.getElementById("timerProgress");
+const timerText = document.getElementById("timerText");
+
+function startVisualTimer(seconds = 10) {
+  timerBox.classList.remove("hidden");
+  timerProgress.style.width = "100%";
+
+  let remaining = seconds;
+  timerText.textContent = `${remaining} secondes`;
+
+  const interval = setInterval(() => {
+    remaining -= 1;
+    timerText.textContent = `${remaining} secondes`;
+    timerProgress.style.width = `${(remaining / seconds) * 100}%`;
+
+    if (remaining <= 0) {
+      clearInterval(interval);
+      timerText.textContent = "Pause terminée";
+      speak("Pause terminée.");
+    }
+  }, 1000);
+}
