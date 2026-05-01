@@ -153,3 +153,12 @@ Amélioration: ${comment || "(aucune remarque)"}`;
     copyStatus.textContent = "Copie impossible automatiquement.";
   }
 });
+let calmMode = false;
+
+const calmModeButton = document.getElementById("calmModeButton");
+
+calmModeButton.addEventListener("click", () => {
+  calmMode = !calmMode;
+  document.body.classList.toggle("calm-mode", calmMode);
+  calmModeButton.textContent = calmMode ? "Mode normal" : "Mode calme";
+});
