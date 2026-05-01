@@ -29,6 +29,7 @@ const responses = {
   "Stop, je veux arrêter": "🛑 D’accord, on arrête.",
   "Je veux une pause": "😴 D’accord, on fait une pause.",
   "J’ai besoin d’aide": "🙋 D’accord, je vais t’aider."
+  "Je vais monter dans le bus": "🚌 D’accord, on va monter dans le bus."
 };
 
 const tokenValues = {
@@ -39,6 +40,7 @@ const tokenValues = {
   "Stop, je veux arrêter": 2,
   "Je veux une pause": 2,
   "J’ai besoin d’aide": 2
+  "Je vais monter dans le bus": 1
 };
 
 function speak(message) {
@@ -228,6 +230,13 @@ copyFeedbackButton.addEventListener("click", async () => {
     copyStatus.textContent = "Copie impossible automatiquement.";
   }
 });
-
+if (message === "Je veux une pause") {
+  startVisualTimer(10);
+}
 renderStars();
 lockReward();
+if (message === "Je vais monter dans le bus") {
+  setTimeout(() => {
+    speak("On attend le bus.");
+  }, 1800);
+}
