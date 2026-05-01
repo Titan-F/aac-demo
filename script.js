@@ -22,6 +22,7 @@ const responses = {
   "Je veux regarder une vidéo": "🎮 D’accord, vidéo après les étoiles.",
   "Stop, je veux arrêter": "🛑 D’accord, on arrête.",
   "Je veux une pause": "😴 D’accord, on fait une pause."
+  "J’ai besoin d’aide": "🙋 D’accord, je vais t’aider."
 };
 
 function speak(message) {
