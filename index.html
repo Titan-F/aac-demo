@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Démo CAA Reward</title>
+  <title>Svox — Démo CAA</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
@@ -11,7 +11,7 @@
     <div class="brand">
       <div class="brand-mark">💬</div>
       <div>
-        <h1>Démo CAA</h1>
+        <h1>Svox</h1>
         <p>Every voice. Every way.</p>
       </div>
     </div>
@@ -33,7 +33,7 @@
         <a class="primary-button" href="#demo">Essayer la démo</a>
       </div>
 
-      <div class="hero-card" aria-hidden="true">
+      <div class="hero-card">
         <div class="mini-speech">Je veux de l’eau 🔊</div>
         <div class="mini-stars">⭐ ⭐ ⚪</div>
         <div class="mini-grid">
@@ -46,7 +46,10 @@
     <section id="demo" class="demo-section">
       <div class="section-title">
         <h2>Démo enfant</h2>
-        <p>Cliquez sur un pictogramme. Le message est lu, une étoile est gagnée, puis la récompense se débloque après 3 communications.</p>
+        <p>
+          Cliquez sur un pictogramme. Chaque choix produit un message différent,
+          donne une réponse adaptée, ajoute une étoile, puis débloque une récompense après 3 communications.
+        </p>
       </div>
 
       <div class="app-frame">
@@ -55,7 +58,7 @@
           <button id="speakButton" class="icon-button" aria-label="Lire le message">🔊</button>
         </div>
 
-        <div class="token-row" aria-label="Progression des étoiles">
+        <div class="token-row">
           <span id="star1">⚪</span>
           <span id="star2">⚪</span>
           <span id="star3">⚪</span>
@@ -66,22 +69,27 @@
             <span class="symbol">💧</span>
             <span>Eau</span>
           </button>
+
           <button class="symbol-card" data-message="Je veux manger">
             <span class="symbol">🍎</span>
             <span>Manger</span>
           </button>
+
           <button class="symbol-card" data-message="Je veux mon jouet">
             <span class="symbol">🧸</span>
             <span>Jouet</span>
           </button>
+
           <button class="symbol-card" data-message="Je veux regarder une vidéo">
             <span class="symbol">🎮</span>
             <span>Vidéo</span>
           </button>
+
           <button class="symbol-card" data-message="Stop, je veux arrêter">
             <span class="symbol">🛑</span>
             <span>Stop</span>
           </button>
+
           <button class="symbol-card" data-message="Je veux une pause">
             <span class="symbol">😴</span>
             <span>Pause</span>
@@ -95,6 +103,8 @@
           </div>
           <button id="resetButton" class="secondary-button">Réinitialiser</button>
         </div>
+
+        <div id="confetti" class="confetti hidden">🎉 ⭐ 🎉 ⭐ 🎉</div>
       </div>
 
       <p class="prototype-note">
@@ -105,7 +115,10 @@
     <section id="feedback" class="feedback-section">
       <div class="section-title">
         <h2>Feedback rapide</h2>
-        <p>Cette partie est une simulation. Pour GitHub Pages sans backend, les réponses ne sont pas envoyées automatiquement.</p>
+        <p>
+          Cette partie est une simulation. Pour GitHub Pages sans backend,
+          les réponses ne sont pas envoyées automatiquement.
+        </p>
       </div>
 
       <form class="feedback-form" onsubmit="return false;">
@@ -119,19 +132,19 @@
         <label for="comment">Qu’aimeriez-vous améliorer ?</label>
         <textarea id="comment" name="comment" rows="5" placeholder="Votre remarque..."></textarea>
 
-        <button id="copyFeedback" class="primary-button" type="button">Copier mon feedback</button>
+        <button id="copyFeedback" class="primary-button" type="button">
+          Copier mon feedback
+        </button>
+
         <p id="copyStatus" class="copy-status"></p>
       </form>
     </section>
   </main>
 
   <footer>
-    <p>Prototype CAA Reward — Démo GitHub Pages</p>
+    <p>Prototype Svox — Démo GitHub Pages</p>
   </footer>
 
   <script src="script.js"></script>
 </body>
 </html>
-<div id="confetti" style="display:none; font-size:40px;">
-  🎉🎉🎉
-</div>
