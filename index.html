@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Svox — Démo CAA</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="brand">
+      <div class="brand-mark">💬</div>
+      <div>
+        <h1>Svox</h1>
+        <p>Every voice. Every way.</p>
+      </div>
+    </div>
+    <nav>
+      <a href="#demo">Démo</a>
+      <a href="#settings">Réglages</a>
+      <a href="#feedback">Feedback</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-content">
+        <span class="tag">Prototype non médical</span>
+        <h2>Une application pour encourager la communication des enfants</h2>
+        <p>
+          Un outil de communication visuelle pour aider les enfants à exprimer
+          leurs besoins, leurs choix et leurs émotions, notamment les enfants avec TSA.
+        </p>
+        <a class="primary-button" href="#demo">Essayer la démo</a>
+      </div>
+
+      <div class="hero-card" aria-hidden="true">
+        <div class="mini-speech">Je veux une pause 🔊</div>
+        <div class="mini-stars">⭐ ⭐ ⚪</div>
+        <div class="mini-grid">
+          <span>💧</span><span>🍎</span><span>🧸</span>
+          <span>🎮</span><span>🛑</span><span>😴</span>
+        </div>
+      </div>
+    </section>
+
+    <section id="demo" class="demo-section">
+      <div class="section-title">
+        <h2>Démo enfant</h2>
+        <p>
+          Cliquez sur un pictogramme. Chaque choix produit un message différent,
+          donne une réponse adaptée et ajoute des étoiles. Les demandes importantes
+          comme Stop, Pause ou Aide donnent plus de points.
+        </p>
+      </div>
+
+      <div class="app-frame">
+        <div class="top-actions">
+          <button id="calmModeButton" class="secondary-button" type="button">Mode calme</button>
+          <button id="resetButtonTop" class="secondary-button" type="button">Recommencer</button>
+        </div>
+
+        <div class="speech-bar">
+          <p id="speechText">Choisis une image</p>
+          <button id="speakButton" class="icon-button" aria-label="Lire le message">🔊</button>
+        </div>
+
+        <div class="token-row" aria-label="Progression des étoiles"></div>
+
+        <div class="symbol-grid">
+          <button class="symbol-card" data-message="Je veux de l’eau">
+            <span class="symbol">💧</span>
+            <span>Eau</span>
+          </button>
+          <button class="symbol-card" data-message="Je veux manger">
+            <span class="symbol">🍎</span>
+            <span>Manger</span>
+          </button>
+          <button class="symbol-card" data-message="Je veux mon jouet">
+            <span class="symbol">🧸</span>
+            <span>Jouet</span>
+          </button>
+          <button class="symbol-card" data-message="Je veux regarder une vidéo">
+            <span class="symbol">🎮</span>
+            <span>Vidéo</span>
+          </button>
+          <button class="symbol-card regulation" data-message="Stop, je veux arrêter">
+            <span class="symbol">🛑</span>
+            <span>Stop</span>
+          </button>
+          <button class="symbol-card regulation" data-message="Je veux une pause">
+            <span class="symbol">😴</span>
+            <span>Pause</span>
+          </button>
+          <button class="symbol-card important" data-message="J’ai besoin d’aide">
+            <span class="symbol">🙋</span>
+            <span>Aide</span>
+          </button>
+        </div>
+
+        <div id="timerBox" class="timer-box hidden">
+          <strong>⏳ Pause</strong>
+          <div class="timer-bar">
+            <div id="timerProgress"></div>
+          </div>
+          <p id="timerText">10 secondes</p>
+        </div>
+
+        <div id="rewardCard" class="reward-card locked">
+          <div>
+            <strong id="rewardTitle">🎁 Récompense verrouillée</strong>
+            <p id="rewardText">Gagne 3 étoiles pour débloquer la récompense.</p>
+          </div>
+          <button id="resetButton" class="secondary-button" type="button">Réinitialiser</button>
+        </div>
+
+        <div id="confetti" class="confetti hidden">🎉 ⭐ 🎉 ⭐ 🎉</div>
+      </div>
+
+      <p class="prototype-note">
+        Cette démo est un prototype non médical. Elle sert uniquement à tester une idée d’interface et de motivation.
+      </p>
+    </section>
+
+    <section id="settings" class="settings-section">
+      <div class="section-title">
+        <h2>Réglages parent / orthophoniste</h2>
+        <p>
+          Ces réglages simulent les adaptations possibles selon le profil sensoriel
+          et le niveau de communication de l’enfant.
+        </p>
+      </div>
+
+      <div class="settings-card">
+        <label for="maxTokensSelect">Nombre d’étoiles nécessaires</label>
+        <select id="maxTokensSelect">
+          <option value="3" selected>3 étoiles</option>
+          <option value="5">5 étoiles</option>
+          <option value="10">10 étoiles</option>
+        </select>
+
+        <label class="toggle-row">
+          <input id="voiceToggle" type="checkbox" checked />
+          <span>Activer la voix</span>
+        </label>
+
+        <label class="toggle-row">
+          <input id="animationToggle" type="checkbox" checked />
+          <span>Activer les animations</span>
+        </label>
+
+        <p class="settings-note">
+          Pour certains enfants avec TSA, les animations motivent. Pour d’autres,
+          elles peuvent surcharger. Le mode calme permet de réduire la stimulation.
+        </p>
+      </div>
+    </section>
+
+    <section id="feedback" class="feedback-section">
+      <div class="section-title">
+        <h2>Feedback rapide</h2>
+        <p>
+          Cette partie est une simulation. Pour GitHub Pages sans backend,
+          les réponses ne sont pas envoyées automatiquement.
+        </p>
+      </div>
+
+      <form class="feedback-form" onsubmit="return false;">
+        <label for="useful">Cette idée vous semble-t-elle utile ?</label>
+        <select id="useful" name="useful">
+          <option>Oui, très utile</option>
+          <option>Peut-être</option>
+          <option>Non</option>
+        </select>
+
+        <label for="comment">Qu’aimeriez-vous améliorer ?</label>
+        <textarea id="comment" name="comment" rows="5" placeholder="Votre remarque..."></textarea>
+
+        <button id="copyFeedback" class="primary-button" type="button">Copier mon feedback</button>
+        <p id="copyStatus" class="copy-status"></p>
+      </form>
+    </section>
+  </main>
+
+  <footer>
+    <p>Prototype Svox — Démo GitHub Pages</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
