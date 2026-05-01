@@ -7,11 +7,21 @@ const resetButton = document.getElementById("resetButton");
 const rewardCard = document.getElementById("rewardCard");
 const rewardTitle = document.getElementById("rewardTitle");
 const rewardText = document.getElementById("rewardText");
+
 const stars = [
   document.getElementById("star1"),
   document.getElementById("star2"),
   document.getElementById("star3")
 ];
+
+const responses = {
+  "Je veux de l’eau": "💧 Voici de l’eau.",
+  "Je veux manger": "🍎 D’accord, on va manger.",
+  "Je veux mon jouet": "🧸 Voici ton jouet.",
+  "Je veux regarder une vidéo": "🎮 D’accord, vidéo après les étoiles.",
+  "Stop, je veux arrêter": "🛑 D’accord, on arrête.",
+  "Je veux une pause": "😴 D’accord, pause."
+};
 
 function speak(message) {
   if (!("speechSynthesis" in window)) return;
@@ -20,27 +30,21 @@ function speak(message) {
 
   const utterance = new SpeechSynthesisUtterance(message);
   utterance.lang = "fr-FR";
-  utterance.rate = 0.92;
-  utterance.pitch = 1;
+  utterance.rate = 0.9;
+  utterance.pitch = 1.1;
+
   window.speechSynthesis.speak(utterance);
 }
 
 function updateStars() {
   stars.forEach((star, index) => {
     star.textContent = index < tokenCount ? "⭐" : "⚪";
-  });
-}
-function updateStars() {
-  stars.forEach((star, index) => {
-    if (index < tokenCount) {
-      star.textContent = "⭐";
-      star.classList.add("star-animate");
 
+    if (index === tokenCount - 1) {
+      star.classList.add("star-animate");
       setTimeout(() => {
         star.classList.remove("star-animate");
       }, 300);
-    } else {
-      star.textContent = "⚪";
     }
   });
 }
@@ -49,18 +53,8 @@ function unlockReward() {
   rewardCard.classList.remove("locked");
   rewardCard.classList.add("unlocked");
   rewardTitle.textContent = "🎉 Bravo ! Récompense débloquée";
-  rewardText.textContent = "L’enfant a gagné 3 étoiles grâce à ses communications.";
-}
-
-function unlockReward() {
-  rewardCard.classList.remove("locked");
-  rewardCard.classList.add("unlocked");
-  rewardTitle.textContent = "🎉 Bravo ! Récompense débloquée";
-  rewardText.textContent = "Super !";
-
-  document.getElementById("confetti").style.display = "block";
-
-  speak("Bravo !");
+  rewardText.textContent = "Tu as gagné 3 étoiles grâce à tes communications.";
+  speak("Bravo ! Récompense débloquée.");
 }
 
 function lockReward() {
@@ -74,22 +68,32 @@ function addToken() {
   if (tokenCount < maxTokens) {
     tokenCount += 1;
     updateStars();
+    speak("Super !");
   }
 
   if (tokenCount >= maxTokens) {
-    unlockReward();
-    speak("Bravo ! Récompense débloquée.");
+    setTimeout(() => {
+      unlockReward();
+    }, 600);
   }
 }
 
 document.querySelectorAll(".symbol-card").forEach((button) => {
   button.addEventListener("click", () => {
     const message = button.dataset.message;
+    const response = responses[message] || "D’accord.";
+
     speechText.textContent = message;
+    rewardText.textContent = response;
+
     button.classList.add("pressed");
 
     speak(message);
-    addToken();
+
+    setTimeout(() => {
+      speak(response);
+      addToken();
+    }, 900);
 
     setTimeout(() => {
       button.classList.remove("pressed");
@@ -104,40 +108,9 @@ speakButton.addEventListener("click", () => {
   }
 });
 
-function speak(message) {
-  if (!("speechSynthesis" in window)) return;
-
-  window.speechSynthesis.cancel();
-
-  const utterance = new SpeechSynthesisUtterance(message);
-  utterance.lang = "fr-FR";
-  utterance.rate = 0.9;
-  utterance.pitch = 1.2;
-
-  window.speechSynthesis.speak(utterance);
-}
-
 resetButton.addEventListener("click", () => {
   tokenCount = 0;
   updateStars();
   lockReward();
   speechText.textContent = "Choisis une image";
 });
-
-const copyFeedbackButton = document.getElementById("copyFeedback");
-const copyStatus = document.getElementById("copyStatus");
-
-copyFeedbackButton.addEventListener("click", async () => {
-  const useful = document.getElementById("useful").value;
-  const comment = document.getElementById("comment").value.trim();
-
-  const feedback = `Feedback démo CAA\nUtilité: ${useful}\nAmélioration: ${comment || "(aucune remarque)"}`;
-
-  try {
-    await navigator.clipboard.writeText(feedback);
-    copyStatus.textContent = "Feedback copié. Vous pouvez le coller dans un message.";
-  } catch (error) {
-    copyStatus.textContent = "Copie impossible automatiquement. Sélectionnez le texte manuellement.";
-  }
-});
-
