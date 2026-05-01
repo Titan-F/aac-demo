@@ -451,3 +451,7 @@ footer {
 .calm-mode .symbol-card {
   box-shadow: none;
 }
+.symbol-card.important {
+  border-color: #F2994A;
+  background: #FFF4E8;
+}
