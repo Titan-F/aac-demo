@@ -386,3 +386,14 @@ footer {
     width: 100%;
   }
 }
+/* ... kodi yt ekzistues ... */
+
+@keyframes pop {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.5); }
+  100% { transform: scale(1); }
+}
+
+.star-animate {
+  animation: pop 0.3s ease;
+}
