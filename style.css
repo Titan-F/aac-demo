@@ -437,3 +437,17 @@ footer {
     width: 100%;
   }
 }
+.calm-mode {
+  --primary: #7BA7C7;
+  --reward: #D9C36A;
+  --background: #F4F6F8;
+}
+
+.calm-mode .confetti,
+.calm-mode .mini-stars {
+  display: none;
+}
+
+.calm-mode .symbol-card {
+  box-shadow: none;
+}
