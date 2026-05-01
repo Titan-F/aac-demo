@@ -30,12 +30,37 @@ function updateStars() {
     star.textContent = index < tokenCount ? "⭐" : "⚪";
   });
 }
+function updateStars() {
+  stars.forEach((star, index) => {
+    if (index < tokenCount) {
+      star.textContent = "⭐";
+      star.classList.add("star-animate");
+
+      setTimeout(() => {
+        star.classList.remove("star-animate");
+      }, 300);
+    } else {
+      star.textContent = "⚪";
+    }
+  });
+}
 
 function unlockReward() {
   rewardCard.classList.remove("locked");
   rewardCard.classList.add("unlocked");
   rewardTitle.textContent = "🎉 Bravo ! Récompense débloquée";
   rewardText.textContent = "L’enfant a gagné 3 étoiles grâce à ses communications.";
+}
+
+function unlockReward() {
+  rewardCard.classList.remove("locked");
+  rewardCard.classList.add("unlocked");
+  rewardTitle.textContent = "🎉 Bravo ! Récompense débloquée";
+  rewardText.textContent = "Super !";
+
+  document.getElementById("confetti").style.display = "block";
+
+  speak("Bravo !");
 }
 
 function lockReward() {
@@ -79,6 +104,19 @@ speakButton.addEventListener("click", () => {
   }
 });
 
+function speak(message) {
+  if (!("speechSynthesis" in window)) return;
+
+  window.speechSynthesis.cancel();
+
+  const utterance = new SpeechSynthesisUtterance(message);
+  utterance.lang = "fr-FR";
+  utterance.rate = 0.9;
+  utterance.pitch = 1.2;
+
+  window.speechSynthesis.speak(utterance);
+}
+
 resetButton.addEventListener("click", () => {
   tokenCount = 0;
   updateStars();
@@ -103,17 +141,3 @@ copyFeedbackButton.addEventListener("click", async () => {
   }
 });
 
-function updateStars() {
-  stars.forEach((star, index) => {
-    if (index < tokenCount) {
-      star.textContent = "⭐";
-      star.classList.add("star-animate");
-
-      setTimeout(() => {
-        star.classList.remove("star-animate");
-      }, 300);
-    } else {
-      star.textContent = "⚪";
-    }
-  });
-}
